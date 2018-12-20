@@ -1,36 +1,41 @@
 #!/usr/bin/ksh93
 #!/bin/zsh
 #!/bin/bash
-################################################################
-#### 
-#### This script will run in KornShell93, Zshell, or Bash, all you need to do 
-#### is put the desired "shebang" line at the top of the script.
-#### 
-################################################################
-function usagemsg_your_function {
-  CMD_ECHO="${GBL_ECHO:-echo -e }"
-  [[ "_${SHCODE}" == "_korn" ]] && typeset CMD_ECHO="${GBL_ECHO:-echo -e }"
-  [[ "_${SHCODE}" == "_bash" ]] && declare CMD_ECHO="${GBL_ECHO:-echo -e }"
-  ${CMD_ECHO} ""
-  ${CMD_ECHO} "${1:+Program: ${1}}${2:+        Version: ${2}}"
 
-  ${CMD_ECHO} "
-Place a brief description ( < 255 chars ) of your shell
-function here.
 
-Usage: ${1##*/} [-?vV] 
+# usage_message function
+usagemsg_displaymsg () {
 
-  Where:
-    -v = Verbose mode - displays your_function function info
-    -V = Very Verbose Mode - debug output displayed
-    -? = Help - display this message
+    printf "%b\n" "${1%%.*}  version: ${VERSION}  created: ${CREATED}"\
+        ""\
+        "Usage: ${1##*/} [-?vVc] [-m message]"\
+        ""\
+        "Print a default message, 'Hello, World!', or a user defined message."\
+        ""\
+        "  -m MESSAGE    Print the user defined MESSAGE and exit"\
+        "                (MESSAGE must be 3 charaters or longer)"\
+        "  -v            Verbose mode - displays ${1%%.*} version info"\
+        "                and the default message"\
+        "  -V            Very Verbose Mode - debug output displayed"\
+        "  -c            Print the location of the script configuration file"\
+        "  -?            Help - display this message and exit"\
+        ""\
+        "  If a message is not specified by the user, a default message"\
+        "  is displayed as defined by the configuration file."\
+        ""\
+        ""\
+        "This shell script is interpreted with the ${SHEBANG#*!} shell."\
+        ""\
+        "author: ${AUTHOR}"\
+        "email : ${EMAIL}"\
+        "repos : ${REPO}"\
+        ""\
+        "\"AutoContent\" enabled"\
+        ""\
 
-Author: Your Name (YourEmail@address.com)
+}   # end of usagemsg_displaymsg function
 
-\"AutoContent\" enabled
-\"Multi-Shell\" enabled
-"
-}
+
 ################################################################
 #### 
 #### Description:
