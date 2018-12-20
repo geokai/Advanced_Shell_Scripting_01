@@ -1,5 +1,3 @@
-#!/usr/bin/ksh93
-#!/bin/zsh
 #!/bin/bash
 
 
@@ -63,11 +61,12 @@ usagemsg_displaymsg () {
 #### 
 #### Details:
 #### 
-#### Place nothing here, the details are your shell function.
-#### 
 ################################################################
-configure_your_function()
-{
+
+
+# function to invoke the sourcing of the confuguration file
+configure_displaymsg() {
+
 #### 
 #### Notice this function is a POSIX function so that it can see local
 #### and global variables from calling functions and scripts.
@@ -79,74 +78,62 @@ configure_your_function()
 #### Configuration variables can be defined in the configuration file using
 #### the same syntax as defining a shell variable, e.g.: VARIABLE="value"
 
-  CFILE=~/.your_function.conf
+    CFILE=./.displaymsg.conf
 
-  (( VERBOSE == TRUE )) && ${CMD_ECHO} "# Configuration File: ${CFILE}"
+    (( VERBOSE == TRUE )) && printf "# Configuration File: ${CFILE}\n"
 
-  if [[ -f ${CFILE} ]]
-  then
-      (( VERBOSE == TRUE )) && cat ${CFILE}
-      . ${CFILE}
-  fi
+    if [[ -f ${CFILE} ]]; then
+        (( VERBOSE == TRUE )) && cat ${CFILE}
+        . ${CFILE}
+    fi
 
-  return 0
-}  
+    return 0
+}  # end of configure_displaymsg function
+
+
 ################################################################
-function your_function {
 
-if [[ "_${SHCODE}" == "_korn"   ]] ||
-   [[ "_${SHCODE}" == "_zshell" ]]
-then
-  typeset VERSION="1.0"
-  typeset TRUE="1"
-  typeset FALSE="0"
-  typeset VERBOSE="${FALSE}"
-  typeset VERYVERB="${FALSE}"
-  typeset CMD_ECHO="${GBL_ECHO:-echo -e }"
-elif [[ "_${SHCODE}" == "_bash" ]]
-then
-  declare VERSION="1.0"
-  declare TRUE="1"
-  declare FALSE="0"
-  declare VERBOSE="${FALSE}"
-  declare VERYVERB="${FALSE}"
-  declare CMD_ECHO="${GBL_ECHO:-echo -e }"
-else
-  VERSION="1.0"
-  TRUE="1"
-  FALSE="0"
-  VERBOSE="${FALSE}"
-  VERYVERB="${FALSE}"
-  CMD_ECHO="${GBL_ECHO:-echo -e }"
-fi
+
+# main function
+diplaymsg () {
+
+    declare VERSION="0.01"
+    declare TRUE="1"
+    declare FALSE="0"
+    declare VERBOSE="${FALSE}"
+    declare VERYVERB="${FALSE}"
+    declare AUTHOR="George Kaimakis"
+    declare EMAIL="geoptus@gmail.com"
+    declare REPO="http://github.com/geokai"
+    declare CREATED="2018/12/19"
 
 #### Set up a trap of the HUP signal to cause this script
 #### to dynamically configure or reconfigure itself upon
 #### receipt of the HUP signal.
 
-  trap "configure_your_function ${0}" HUP
+    trap "configure_displaymsg ${0}" HUP
 
 #### Read the configuration file and initialize variables by
 #### sending this script a HUP signal
 
-  kill -HUP ${$}
+    kill -HUP ${$}
+
 
 #### Process the command line options and arguments.
 
-  while getopts ":vV" OPTION
-  do
-      case "${OPTION}" in
-          'v') VERBOSE="${TRUE}";;
-          'V') VERYVERB="${TRUE}";;
-          '?') usagemsg_your_function "${0}" "${VERSION}" && return 1 ;;
-          ':') usagemsg_your_function "${0}" "${VERSION}" && return 1 ;;
-          '#') usagemsg_your_function "${0}" "${VERSION}" && return 1 ;;
-      esac
-  done
-   
-  shift $(( ${OPTIND} - 1 ))
-  
-  trap "usagemsg_your_function ${0} ${VERSION}" EXIT
+    while getopts ":vV" OPTION; do
+        case "${OPTION}" in
+            'v') VERBOSE="${TRUE}";;
+            'V') VERYVERB="${TRUE}";;
+            '?') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            ':') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            '#') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+        esac
+    done
+
+    shift $(( ${OPTIND} - 1 ))
+
+    trap "usagemsg_displaymsg ${0} ${VERSION}" EXIT
 
 #### Place any command line option error checking statements
 #### here.  If an error is detected, print a message to
@@ -154,10 +141,10 @@ fi
 #### non-zero return code.  The "trap" statement will cause
 #### the "usagemsg" to be displayed.
 
-  trap "-" EXIT
-  
-  (( VERYVERB == TRUE )) && set -x
-  (( VERBOSE  == TRUE )) && ${CMD_ECHO} "# Version........: ${VERSION}"
+    trap "-" EXIT
+
+    (( VERYVERB == TRUE )) && set -x
+    (( VERBOSE  == TRUE )) && printf "# ${0} Version........: ${VERSION}\n"
 
 ################################################################
 
@@ -171,17 +158,19 @@ fi
 #### become your function.
 #### 
 
-  ${CMD_ECHO} "# MSG = ${MSG}"
+    printf "# MSG = ${MSG}\n"
 
 #### If you need to define array values inside a while or until loop, and you
 #### read input from a file, redirect input into the while loop instead of
 #### using a pipe. Bash requires this syntax if you need the array values to
 #### be visible outside of the loop.
 
-  trap "-" HUP
+    trap "-" HUP
 
-  return 0
-}
+    return 0
+}   # end of main function: displaymsg
+
+
 ################################################################
 ################################################################
 ################################################################
@@ -190,8 +179,6 @@ fi
 #### 
 ################################################################
 
-TRUE="1"
-FALSE="0"
 
 #### 
 #### Extract the "shebang" line from the beginning of the script
@@ -216,11 +203,10 @@ GBL_ECHO="echo -e"
 [[ "_${SHCODE}" == "_zshell" ]] && GBL_ECHO="print --" && emulate ksh93
 [[ "_${SHCODE}" == "_bash"   ]] && shopt -s extglob    # Turn on extended globbing
 
-#### 
-#### Call the script function to begin processing
 
-your_function "${@}"
+#### 
+#### Call the main script function to begin processing
+
+diplaymsg "${@}"
 
 exit ${?}
-
-
