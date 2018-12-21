@@ -1,6 +1,6 @@
 ## Advanced Shell Scripting
 
-###01 Shell Script Template###
+### 01 Shell Script Template
 
 __Intention:__
 The template will be amended to be used as a bash shell script.
