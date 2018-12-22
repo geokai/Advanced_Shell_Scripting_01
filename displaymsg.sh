@@ -102,10 +102,10 @@ diplaymsg () {
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
     declare VERYVERB="${FALSE}"
-    declare AUTHOR="George Kaimakis"
-    declare EMAIL="geoptus@gmail.com"
-    declare REPO="http://github.com/geokai"
-    declare CREATED="2018/12/19"
+    declare -g AUTHOR="George Kaimakis"
+    declare -g EMAIL="geoptus@gmail.com"
+    declare -g REPO="http://github.com/geokai"
+    declare -g CREATED="2018/12/19"
 
 #### Set up a trap of the HUP signal to cause this script
 #### to dynamically configure or reconfigure itself upon
