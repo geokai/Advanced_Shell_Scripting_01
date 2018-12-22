@@ -97,7 +97,7 @@ configure_displaymsg() {
 # main function
 diplaymsg () {
 
-    declare VERSION="0.01"
+    declare VERSION="0.01.01"   # 0.00.00 - major.minor.patch
     declare TRUE="1"
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
