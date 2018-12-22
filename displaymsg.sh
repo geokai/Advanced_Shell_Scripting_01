@@ -103,11 +103,12 @@ configure_displaymsg() {
 # main function
 diplaymsg () {
 
-    declare VERSION="0.01.01"   # 0.00.00 - major.minor.patch
     declare TRUE="1"
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
     declare VERYVERB="${FALSE}"
+
+    declare -g VERSION="0.01.01"   # 0.00.00 - major.minor.patch
     declare -g AUTHOR="George Kaimakis"
     declare -g EMAIL="geoptus@gmail.com"
     declare -g REPO="http://github.com/geokai"
