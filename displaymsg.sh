@@ -147,24 +147,7 @@ diplaymsg () {
     (( VERBOSE == TRUE )) && printf "%s\n" "# Content of MSG: ${MSG}"
     (( VERBOSE == TRUE )) && printf "%s\n" "# Length  of MSG: ${#MSG}"
 
-################################################################
-
-####
-#### Your shell function should perform it's specfic work here.
-#### All work performed by your shell function should be coded
-#### within this section of the function.  This does not mean that
-#### your function should be called from here, it means the shell
-#### code that performs the work of your function should be 
-#### incorporated into the body of this function.  This should
-#### become your function.
-#### 
-
-    printf "# MSG = ${MSG}\n"
-
-#### If you need to define array values inside a while or until loop, and you
-#### read input from a file, redirect input into the while loop instead of
-#### using a pipe. Bash requires this syntax if you need the array values to
-#### be visible outside of the loop.
+    printf "  %s\n" "${MSG}"
 
     trap "-" HUP
 
