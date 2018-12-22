@@ -79,12 +79,18 @@ configure_displaymsg() {
 #### the same syntax as defining a shell variable, e.g.: VARIABLE="value"
 
     CFILE=./.displaymsg.conf
-
-    (( VERBOSE == TRUE )) && printf "# Configuration File: ${CFILE}\n"
-
     if [[ -f ${CFILE} ]]; then
-        (( VERBOSE == TRUE )) && cat ${CFILE}
+        (( VERBOSE == TRUE )) && printf "  %b\n" ""\
+                                                 "# Configuration   file: ${CFILE}"\
+                                                 "# Config file contents: $(cat ${CFILE})"\
+                                                 ""
+        # source config file
         . ${CFILE}
+    else
+        printf "  %b\n" ""\
+                        "# Configuration file \"${CFILE}\" not found!"\
+                        ""
+        exit 2
     fi
 
     return 0
