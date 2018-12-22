@@ -134,18 +134,18 @@ diplaymsg () {
 
     shift $(( ${OPTIND} - 1 ))
 
-    trap "usagemsg_displaymsg ${0} ${VERSION}" EXIT
 
-#### Place any command line option error checking statements
-#### here.  If an error is detected, print a message to
-#### standard error, and return from this function with a
-#### non-zero return code.  The "trap" statement will cause
-#### the "usagemsg" to be displayed.
+    trap 'usagemsg_displaymsg "${0}" "${VERSION}"' EXIT
+
+    (( ${#MSG} < 3 )) && return 2
 
     trap "-" EXIT
 
+    ## TODO: roll the VERBOSE tests into one:
     (( VERYVERB == TRUE )) && set -x
-    (( VERBOSE  == TRUE )) && printf "# ${0} Version........: ${VERSION}\n"
+    (( VERBOSE  == TRUE )) && printf "# Version........: ${VERSION}\n"
+    (( VERBOSE == TRUE )) && printf "%s\n" "# Content of MSG: ${MSG}"
+    (( VERBOSE == TRUE )) && printf "%s\n" "# Length  of MSG: ${#MSG}"
 
 ################################################################
 
