@@ -107,17 +107,6 @@ diplaymsg () {
     declare -g REPO="http://github.com/geokai"
     declare -g CREATED="2018/12/19"
 
-#### Set up a trap of the HUP signal to cause this script
-#### to dynamically configure or reconfigure itself upon
-#### receipt of the HUP signal.
-
-    trap "configure_displaymsg ${0}" HUP
-
-#### Read the configuration file and initialize variables by
-#### sending this script a HUP signal
-
-    kill -HUP ${$}
-
 
 #### Process the command line options and arguments.
 
@@ -133,6 +122,18 @@ diplaymsg () {
     done
 
     shift $(( ${OPTIND} - 1 ))
+
+
+#### Set up a trap of the HUP signal to cause this script
+#### to dynamically configure or reconfigure itself upon
+#### receipt of the HUP signal.
+
+    trap "configure_displaymsg ${0}" HUP
+
+#### Read the configuration file and initialize variables by
+#### sending this script a HUP signal
+
+    kill -HUP ${$}
 
 
     trap 'usagemsg_displaymsg "${0}" "${VERSION}"' EXIT
