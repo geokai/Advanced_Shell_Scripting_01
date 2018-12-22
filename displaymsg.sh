@@ -121,8 +121,9 @@ diplaymsg () {
 
 #### Process the command line options and arguments.
 
-    while getopts ":vV" OPTION; do
+    while getopts ":vVm:" OPTION; do
         case "${OPTION}" in
+            'm') MSG="${OPTARG}";;
             'v') VERBOSE="${TRUE}";;
             'V') VERYVERB="${TRUE}";;
             '?') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
