@@ -124,7 +124,8 @@ diplaymsg () {
             'v') VERBOSE="${TRUE}";;
             'V') VERYVERB="${TRUE}";;
             '?') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
-            ':') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            ':') printf "  %b\n" "" "# missing argument(s)!" ""
+                 usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
             '#') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
         esac
     done
