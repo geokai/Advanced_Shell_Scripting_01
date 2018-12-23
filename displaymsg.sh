@@ -132,6 +132,9 @@ diplaymsg () {
     shift $(( ${OPTIND} - 1 ))
 
 
+    (( VERYVERB == TRUE )) && set -x
+
+
 #### Set up a trap of the HUP signal to cause this script
 #### to dynamically configure or reconfigure itself upon
 #### receipt of the HUP signal.
@@ -152,15 +155,18 @@ diplaymsg () {
 
     trap "-" EXIT
 
-    ## TODO: roll the VERBOSE tests into one:
-    (( VERYVERB == TRUE )) && set -x
-    (( VERBOSE  == TRUE )) && printf "# Version........: ${VERSION}\n"
-    (( VERBOSE == TRUE )) && printf "%s\n" "# Content of MSG: ${MSG}"
-    (( VERBOSE == TRUE )) && printf "%s\n" "# Length  of MSG: ${#MSG}"
+    # verbose output
+    (( VERBOSE  == TRUE )) && printf "  %b\n" ""\
+                                              "# Version.......: ${VERSION}"\
+                                              "# Content of MSG: ${MSG}"\
+                                              "# Length  of MSG: ${#MSG}"\
+                                              ""
 
+    # print the message
     printf "  %s\n" "${MSG}"\
                     ""
 
+    # disable the HUP trap
     trap "-" HUP
 
     return 0
