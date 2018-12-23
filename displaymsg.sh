@@ -103,6 +103,7 @@ configure_displaymsg() {
 # main function
 diplaymsg () {
 
+    unset MSG
     declare TRUE="1"
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
@@ -135,17 +136,19 @@ diplaymsg () {
 #### to dynamically configure or reconfigure itself upon
 #### receipt of the HUP signal.
 
-    trap "configure_displaymsg ${0}" HUP
+    if [[ -z ${MSG} ]]; then
+        trap "configure_displaymsg ${0}" HUP
+        kill -HUP ${$}
+    fi
 
 #### Read the configuration file and initialize variables by
 #### sending this script a HUP signal
 
-    kill -HUP ${$}
 
 
     trap 'usagemsg_displaymsg "${0}" "${VERSION}"' EXIT
 
-    (( ${#MSG} < 3 )) && return 2
+    (( ${#MSG} < 3 )) && { ${GBL_ECHO} "\n  # Message too short!\n"; return 2; }
 
     trap "-" EXIT
 
@@ -155,7 +158,8 @@ diplaymsg () {
     (( VERBOSE == TRUE )) && printf "%s\n" "# Content of MSG: ${MSG}"
     (( VERBOSE == TRUE )) && printf "%s\n" "# Length  of MSG: ${#MSG}"
 
-    printf "  %s\n" "${MSG}"
+    printf "  %s\n" "${MSG}"\
+                    ""
 
     trap "-" HUP
 
