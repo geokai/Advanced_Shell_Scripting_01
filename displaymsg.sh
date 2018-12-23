@@ -192,11 +192,11 @@ export SHEBANG
 #### 
 #### Test the "shebang" line to determine what shell interpreter is specified
 
-SHCODE="unknown"
-[[ "_${SHEBANG}" == _*/ksh*  ]] && SHCODE="korn"
-[[ "_${SHEBANG}" == _*/bash* ]] && SHCODE="bash"
-[[ "_${SHEBANG}" == _*/zsh*  ]] && SHCODE="zshell"
-export SHCODE
+# SHCODE="unknown"
+# [[ "_${SHEBANG}" == _*/ksh*  ]] && SHCODE="korn"
+# [[ "_${SHEBANG}" == _*/bash* ]] && SHCODE="bash"
+# [[ "_${SHEBANG}" == _*/zsh*  ]] && SHCODE="zshell"
+# export SHCODE
 
 #### 
 #### Modify the commands and script according to the shell intpreter
