@@ -192,19 +192,38 @@ export SHEBANG
 #### 
 #### Test the "shebang" line to determine what shell interpreter is specified
 
-# SHCODE="unknown"
-# [[ "_${SHEBANG}" == _*/ksh*  ]] && SHCODE="korn"
-# [[ "_${SHEBANG}" == _*/bash* ]] && SHCODE="bash"
-# [[ "_${SHEBANG}" == _*/zsh*  ]] && SHCODE="zshell"
-# export SHCODE
+case "_${SHEBANG}" in
+    _*/bash*)
+        SHCODE="bash"
+        ;;
+
+    _*/ksh*)
+        SHCODE="korn"
+        ;;
+
+    _*/zsh*)
+        SHCODE="zshell"
+        ;;
+esac
+
 
 #### 
 #### Modify the commands and script according to the shell intpreter
 
-GBL_ECHO="echo -e"
-[[ "_${SHCODE}" == "_korn"   ]] && GBL_ECHO="print --"
-[[ "_${SHCODE}" == "_zshell" ]] && GBL_ECHO="print --" && emulate ksh93
-[[ "_${SHCODE}" == "_bash"   ]] && shopt -s extglob    # Turn on extended globbing
+case "_${SHCODE}" in
+    _bash)
+        shopt -s extglob    # turn on extended globing
+        GBL_ECHO="printf"
+        ;;
+
+    _korn)
+        GBL_ECHO="print --"
+        ;;
+
+    _zshell)
+        GBL_ECHO="print --" && emulate ksh93
+        ;;
+esac
 
 
 #### 
