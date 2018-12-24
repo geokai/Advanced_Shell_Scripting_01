@@ -164,7 +164,8 @@ diplaymsg () {
                                               ""
 
     # print the message
-    printf "  %s\n" "${MSG}"\
+    printf "  %s\n" ""\
+                    "${MSG}"\
                     ""
 
     # disable the HUP trap
@@ -204,6 +205,9 @@ case "_${SHEBANG}" in
     _*/zsh*)
         SHCODE="zshell"
         ;;
+
+    *)
+        SHCODE="sh"
 esac
 
 
@@ -223,6 +227,9 @@ case "_${SHCODE}" in
     _zshell)
         GBL_ECHO="print --" && emulate ksh93
         ;;
+
+    *)
+        GBL_ECHO="echo -e"
 esac
 
 
