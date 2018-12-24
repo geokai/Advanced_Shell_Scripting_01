@@ -208,6 +208,7 @@ case "_${SHEBANG}" in
 
     *)
         SHCODE="sh"
+        ;;
 esac
 
 
@@ -230,6 +231,7 @@ case "_${SHCODE}" in
 
     *)
         GBL_ECHO="echo -e"
+        ;;
 esac
 
 
