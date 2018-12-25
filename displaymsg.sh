@@ -6,7 +6,7 @@ usagemsg_displaymsg () {
 
     printf "%b\n" "${1%%.*}  version: ${VERSION}  created: ${CREATED}"\
         ""\
-        "Usage: ${1##*/} [-?vVc] [-m message]"\
+        "Usage: ${1##*/} [-hvVc] [-m message]"\
         ""\
         "Print a default message, 'Hello, World!', or a user defined message."\
         ""\
@@ -16,7 +16,7 @@ usagemsg_displaymsg () {
         "                and the default message"\
         "  -V            Very Verbose Mode - debug output displayed"\
         "  -c            Print the location of the script configuration file"\
-        "  -?            Help - display this message and exit"\
+        "  -h            Help - display this message and exit"\
         ""\
         "  If a message is not specified by the user, a default message"\
         "  is displayed as defined by the configuration file."\
@@ -125,7 +125,7 @@ diplaymsg () {
             'V') VERYVERB="${TRUE}";;
             '?') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
             ':') printf "  %b\n" "" "# missing argument(s)!" ""
-                 usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            h) usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
             '#') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
         esac
     done
