@@ -78,7 +78,7 @@ configure_displaymsg() {
 #### Configuration variables can be defined in the configuration file using
 #### the same syntax as defining a shell variable, e.g.: VARIABLE="value"
 
-    CFILE=./.displaymsg.conf
+    CFILE="${1}"
     if [[ -f ${CFILE} ]]; then
         (( VERBOSE == TRUE )) && printf "  %b\n" ""\
                                                  "# Configuration   file: ${CFILE}"\
@@ -108,6 +108,8 @@ diplaymsg () {
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
     declare VERYVERB="${FALSE}"
+    declare CONF_LOC="~"
+    declare CONF_FILE="${CONF_LOC}/.displaymsg.conf"
 
     declare -g VERSION="0.01.01"   # 0.00.00 - major.minor.patch
     declare -g AUTHOR="George Kaimakis"
@@ -118,15 +120,18 @@ diplaymsg () {
 
 #### Process the command line options and arguments.
 
-    while getopts ":vVm:" OPTION; do
+    while getopts ":hvVcm:" OPTION; do
         case "${OPTION}" in
-            'm') MSG="${OPTARG}";;
-            'v') VERBOSE="${TRUE}";;
-            'V') VERYVERB="${TRUE}";;
-            '?') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
-            ':') printf "  %b\n" "" "# missing argument(s)!" ""
+            m) MSG="${OPTARG}";;
+            v) VERBOSE="${TRUE}";;
+            V) VERYVERB="${TRUE}";;
+            c) printf "  %b\n" "" "# configuateion file: ${CONF_FILE}" ""\
+               && return 0;;
             h) usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
-            '#') usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            :) printf "  %b\n" "" "# missing argument(s)!" ""
+               usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
+            *) printf "  %b\n" "" "# unknown option: ${1}" "" >&2
+               usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
         esac
     done
 
@@ -138,10 +143,10 @@ diplaymsg () {
 
 #### Set up a trap of the HUP signal to cause this script
 #### to dynamically configure or reconfigure itself upon
-#### receipt of the HUP signal.
+#### receipt of the HUP signal, if MSG is unset.
 
     if [[ -z ${MSG} ]]; then
-        trap "configure_displaymsg ${0}" HUP
+        trap "configure_displaymsg ${CONF_FILE}" HUP
         kill -HUP ${$}
     fi
 
