@@ -108,7 +108,7 @@ diplaymsg () {
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
     declare VERYVERB="${FALSE}"
-    declare CONF_LOC="~"
+    declare CONF_LOC="$HOME"
     declare CONF_FILE="${CONF_LOC}/.displaymsg.conf"
 
     declare -g VERSION="0.01.01"   # 0.00.00 - major.minor.patch
@@ -130,7 +130,7 @@ diplaymsg () {
             h) usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
             :) printf "  %b\n" "" "# missing argument(s)!" ""
                usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
-            *) printf "  %b\n" "" "# unknown option: ${1}" "" >&2
+            *) printf "  %b\n" "" "# unknown option: ${1}" ""
                usagemsg_displaymsg "${0}" "${VERSION}" && return 1 ;;
         esac
     done
