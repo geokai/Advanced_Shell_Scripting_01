@@ -108,7 +108,7 @@ diplaymsg () {
     declare FALSE="0"
     declare VERBOSE="${FALSE}"
     declare VERYVERB="${FALSE}"
-    declare CONF_LOC="$HOME"
+    declare CONF_LOC="$HOME/bin/Advanced_Shell_Scripting_01"
     declare CONF_FILE="${CONF_LOC}/.displaymsg.conf"
 
     declare -g VERSION="0.01.01"   # 0.00.00 - major.minor.patch
